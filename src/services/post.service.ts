@@ -18,6 +18,12 @@ export class PostService implements OnInit {
     this.getPosts();
   }
 
+  addPost(newPost: Post) {
+    this.posts.push(newPost);
+    this.emitPostsSubject();
+    this.savePostsToServer();
+  }
+
   savePostsToServer() {
     this.httpClient.put('https://act-blog-2.firebaseio.com/posts.json', this.posts)
       .subscribe(
@@ -28,7 +34,6 @@ export class PostService implements OnInit {
           alert('sauvegarde des posts échoué : ' + error);
         }
       );
-    this.emitPostsSubject();
   }
 
   getPosts() {

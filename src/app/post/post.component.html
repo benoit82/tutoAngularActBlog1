@@ -7,5 +7,5 @@
 </ng-container>
 <ng-template #elseTemplate>
   <h1>Aucun post actuellement !</h1>
-  <a href="">Créer un 1er post maintenant :)</a>
+  <a [routerLink]="[ '/posts', 'new' ]">Créer un 1er post maintenant :)</a>
 </ng-template>
