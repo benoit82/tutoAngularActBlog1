@@ -1,38 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { PostService } from 'src/services/post.service';
+import { Subscription } from 'rxjs';
+import { Post } from 'src/models/post.model';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.component.html',
   styleUrls: ['./post.component.css']
 })
-export class PostComponent implements OnInit {
-  posts = [
-    {
-      title: 'Mon premier post',
-      content: `Ullamco enim elit ex consectetur laborum velit commodo minim tempor et culpa.
-      Enim eiusmod aliquip sunt ex anim culpa incididunt exercitation nulla aliquip anim officia ad culpa.`,
-      loveIts: 0,
-      created_at: new Date('2019-02-06T17:27:00')
-    },
-    {
-      title: 'Mon deuxième post',
-      content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed lectus nec lacus bibendum maximus.
-        Aliquip veniam nulla aliquip dolore qui. Ut pariatur eu elit nisi.`,
-      loveIts: 3,
-      created_at: new Date('2019-02-06T23:45:00')
-    },
-    {
-      title: 'Un troisième post',
-      content: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc sed lectus nec lacus bibendum maximus.
-        Exercitation officia incididunt esse officia culpa voluptate duis. Anim officia commodo velit laborum sit voluptate proident ad.`,
-      loveIts: -2,
-      created_at: new Date('2019-02-07T03:24:00')
-    }
-  ];
+export class PostComponent implements OnInit, OnDestroy {
+  posts: Post[] = [];
 
-  constructor() { }
+  postSubscription: Subscription;
+
+  constructor(
+    private postService: PostService
+  ) { }
 
   ngOnInit() {
+    this.postSubscription = this.postService.postsSubject.subscribe(
+      (posts: Post[]) => {
+        this.posts = posts;
+      }
+    );
+    this.postService.emitPostsSubject();
   }
 
+  ngOnDestroy() {
+    this.postSubscription.unsubscribe();
+  }
 }
