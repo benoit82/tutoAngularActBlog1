@@ -26,7 +26,7 @@ export class PostService implements OnInit, OnDestroy {
   savePostsToServer() {
     this.httpClient.put('https://act-blog-2.firebaseio.com/posts.json', this.posts)
       .subscribe(
-        () => {},
+        () => { },
         (error) => {
           alert('sauvegarde des posts échoué : ' + error);
         }
@@ -50,9 +50,16 @@ export class PostService implements OnInit, OnDestroy {
     );
   }
 
+  deletePost(index: number) {
+    this.posts.splice(index, 1);
+    this.emitPostsSubject();
+    this.savePostsToServer();
+  }
+
   emitPostsSubject() {
     this.postsSubject.next(this.posts.slice());
   }
+
   ngOnDestroy() {
     this.postsSubject.unsubscribe();
   }

@@ -27,8 +27,6 @@ export class PostListComponentComponent implements OnInit {
   }
 
   deletePost() {
-    this.postService.posts.splice(this.index, 1);
-    this.postService.emitPostsSubject();
-    this.postService.savePostsToServer();
+    this.postService.deletePost(this.index);
   }
 }
