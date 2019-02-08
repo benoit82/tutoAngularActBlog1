@@ -23,6 +23,12 @@ export class PostService implements OnInit, OnDestroy {
     this.savePostsToServer();
   }
 
+  addLike(index: number, add: number) {
+    this.posts[index].lovesIt += add;
+    this.emitPostsSubject();
+    this.savePostsToServer();
+  }
+
   savePostsToServer() {
     this.httpClient.put('https://act-blog-2.firebaseio.com/posts.json', this.posts)
       .subscribe(

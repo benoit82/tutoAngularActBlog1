@@ -21,9 +21,7 @@ export class PostListComponentComponent implements OnInit {
   }
 
   addLike(add: number) {
-    this.post.lovesIt += add;
-    this.postService.emitPostsSubject();
-    this.postService.savePostsToServer();
+    this.postService.addLike(this.index, add);
   }
 
   deletePost() {
