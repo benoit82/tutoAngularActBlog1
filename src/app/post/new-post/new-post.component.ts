@@ -31,12 +31,13 @@ export class NewPostComponent implements OnInit {
   }
 
   onSubmitForm() {
-    // récuperation de l'id max pour le nouveau post
-    const idMax = this.postService.posts.length;
     const formValues = this.postForm.value;
-    const newPost = new Post(idMax, formValues['title'], formValues['content'], new Date(), 0);
+    const newPost = new Post(formValues['title'], formValues['content'], new Date(), 0);
     this.postService.addPost(newPost);
-    this.router.navigate(['posts']);
+    this.postService.getPosts();
+    setTimeout(() => {
+      this.router.navigate(['posts']);
+    }, 1000);
   }
 
 }
