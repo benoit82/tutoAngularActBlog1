@@ -1,10 +1,10 @@
-import { Injectable, OnInit } from '@angular/core';
+import { Injectable, OnInit, OnDestroy } from '@angular/core';
 import { Post } from 'src/models/post.model';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable()
-export class PostService implements OnInit {
+export class PostService implements OnInit, OnDestroy {
 
   posts: Post[] = [];
 
@@ -52,5 +52,8 @@ export class PostService implements OnInit {
 
   emitPostsSubject() {
     this.postsSubject.next(this.posts.slice());
+  }
+  ngOnDestroy() {
+    this.postsSubject.unsubscribe();
   }
 }
