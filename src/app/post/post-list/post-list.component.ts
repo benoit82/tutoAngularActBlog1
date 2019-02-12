@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PostService } from 'src/services/post.service';
 import { Post } from 'src/models/post.model';
+import { post } from 'selenium-webdriver/http';
 
 @Component({
   selector: 'app-post-list-component',
@@ -16,9 +17,7 @@ export class PostListComponentComponent implements OnInit {
     private postService: PostService
   ) { }
 
-  ngOnInit() {
-
-  }
+  ngOnInit() { }
 
   addLike(add: number) {
     this.postService.addLike(this.index, add);

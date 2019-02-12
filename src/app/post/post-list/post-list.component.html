@@ -1,6 +1,6 @@
 <li class="col-sm-8"
   [ngClass]="{'list-group-item': true, 'list-group-item-success': post.lovesIt > 0, 'list-group-item-danger': post.lovesIt < 0}">
-  <p class="pull-right"><em><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.createdAt | date: "dd/MM/yyyy, hh:mm" }}</em></p>
+  <p class="pull-right"><em><i class="fa fa-calendar" aria-hidden="true"></i> {{ post.createdAt | date: "EEEE d MMMM y, HH:mm" }}</em></p>
   <h1>{{ post.title }}</h1>
   <p>{{ post.content }}</p>
   <hr>
