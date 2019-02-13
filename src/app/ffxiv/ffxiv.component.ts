@@ -12,6 +12,7 @@ export class FfxivComponent implements OnInit {
   persoInfos = [];
   apiXivKey = '88fdf3601b1b4e9ebe38beaa';
   armors: any[] = [];
+  ilvl = 0;
 
   constructor(
     private httpClient: HttpClient
@@ -25,15 +26,18 @@ export class FfxivComponent implements OnInit {
         this.persoInfos = data['Character'];
         this.armors = [];
         // tslint:disable-next-line:forin
-        for (let obj in this.persoInfos['GearSet']['Gear']) {
-          this.httpClient.get(
-            'https://xivapi.com/item/' + data.Character.GearSet.Gear[obj].ID + '?key=' + this.apiXivKey
-          ).subscribe(
-            (dataItem) => {
-              console.log(dataItem);
-            });
+        for (const obj in this.persoInfos['GearSet']['Gear']) {
+          if (obj !== 'SoulCrystal') {
+            this.httpClient.get(
+              'https://xivapi.com/item/' + data.Character.GearSet.Gear[obj].ID + '?key=' + this.apiXivKey
+            ).subscribe(
+              (dataItem) => {
+                this.armors.push([obj, dataItem.Name_fr, dataItem.LevelItem]);
+                this.ilvl += dataItem['LevelItem'];
+              });
+          }
         };
-      }
-      );
-}
+        this.ilvl = this.ilvl / this.armors.length;
+      });
+  }
 }
