@@ -12,6 +12,7 @@ import { NewPostComponent } from './post/new-post/new-post.component';
 import { FfxivComponent } from './ffxiv/ffxiv.component';
 import localeFr from '@angular/common/locales/fr';
 import { registerLocaleData } from '@angular/common';
+import { CharacterService } from 'src/services/character.service';
 
 registerLocaleData(localeFr);
 
@@ -32,6 +33,7 @@ registerLocaleData(localeFr);
   ],
   providers: [
     PostService,
+    CharacterService,
     { provide: LOCALE_ID, useValue: 'fr' }
   ],
   bootstrap: [AppComponent]
