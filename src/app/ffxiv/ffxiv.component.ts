@@ -20,7 +20,7 @@ export class FfxivComponent implements OnInit {
 
   ngOnInit() {
     this.httpClient.get(
-      'https://xivapi.com/character/' + this.Idlist[1] + '?key=' + this.apiXivKey
+      'https://xivapi.com/character/' + this.Idlist[2] + '?key=' + this.apiXivKey
     ).subscribe(
       (data) => {
         this.persoInfos = data['Character'];
@@ -33,11 +33,11 @@ export class FfxivComponent implements OnInit {
             ).subscribe(
               (dataItem) => {
                 this.armors.push([obj, dataItem.Name_fr, dataItem.LevelItem]);
-                this.ilvl += dataItem['LevelItem'];
+                this.ilvl += dataItem.LevelItem;
               });
           }
-        };
-        this.ilvl = this.ilvl / this.armors.length;
+        }
       });
+    this.ilvl = this.ilvl / 12; // TODO : afficher la bonne valeur
   }
 }
