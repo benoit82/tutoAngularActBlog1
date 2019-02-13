@@ -1,3 +1,8 @@
 <h2 class="text-center">  {{ persoInfos.Name }} </h2>
-<img src="{{ persoInfos.Portrait }}" style="max-height: 400px;" alt="">
-<p>Body iLVL : {{ bodyInfos.LevelItem }}</p>
+<h4 class="text-center">ILVL : {{ avgIlvl }}</h4>
+<img src="{{ persoInfos.Portrait }}" style="max-height: 400px;" alt="character picture">
+<ul class="list-group pull-right">
+    <li *ngFor="let armor of armors" class="list-group-item">
+        {{ armor[0] }} : {{ armor[2] }}<span class="pull-right">ilvl : {{ armor[1] }}</span>
+    </li>
+</ul>

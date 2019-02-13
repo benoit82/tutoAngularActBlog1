@@ -43,11 +43,13 @@ export class PostService implements OnInit, OnDestroy {
     this.httpClient.get<any[]>('https://act-blog-2.firebaseio.com/posts.json').subscribe(
       (data) => {
         this.posts = [];
+        if (data && data.length > 0) {
         data.forEach(post => {
           this.posts.push(
             new Post(post.title, post.content, post.createdAt, post.lovesIt)
           );
         });
+        }
         this.emitPostsSubject();
       },
       (error) => {
