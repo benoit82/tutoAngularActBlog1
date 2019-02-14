@@ -1,22 +1,20 @@
-<h2 class="text-center"> {{ persoInfos.Name }} </h2>
-<div class="row">
-    <div class="col-sm-3">
-        <img src="{{ persoInfos.Portrait }}" style="max-height: 400px;" alt="character picture">
-    </div>
-    <div class="col-sm-9">
-        <table class="table table-striped table-inverse table-responsive">
+<div class="row" >
+    <div class="col-sm-6 card border-primary" *ngFor="let chr of characters; let i = index">
+        <h2 class="text-center"> {{ chr.name }} </h2>
+        <p class="text-center"><img src="{{ chr.portraitLink }}" style="max-height: 400px;" alt="character picture"></p>
+        <table id="{{ chr.id }}" class="table table-striped table-inverse table-responsive">
             <thead class="thead-inverse">
                 <tr>
                     <th>Armure</th>
                     <th>Nom</th>
-                    <th>iLvl : {{ ilvl / 12 }}</th>
+                    <th>iLvl [{{ chr.getIlvl() }}]</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let armor of armors">
-                    <td scope="row">{{ armor[0] }}</td>
-                    <td>{{ armor[1] }}</td>
-                    <td>{{ armor[2] }}</td>
+                <tr *ngFor="let gear of sortBy(i,'piece')">
+                    <td scope="row">{{ gear.piece }}</td>
+                    <td>{{ gear.name }}</td>
+                    <td>{{ gear.ilvl }}</td>
                 </tr>
             </tbody>
         </table>

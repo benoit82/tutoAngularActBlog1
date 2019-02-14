@@ -1,43 +1,50 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Character } from 'src/models/character.model';
+import { CharacterService } from 'src/services/character.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-ffxiv',
   templateUrl: './ffxiv.component.html',
   styleUrls: ['./ffxiv.component.css']
 })
-export class FfxivComponent implements OnInit {
+export class FfxivComponent implements OnInit, OnDestroy {
 
-  Idlist: any[] = [11271710, 13376194, 734000];
-  persoInfos = [];
-  apiXivKey = '88fdf3601b1b4e9ebe38beaa';
-  armors: any[] = [];
-  ilvl = 0;
+  characters: Character[] = [];
+  idList: any[] = [11271710, 13376194, 734000];
+
+  characterSubscription: Subscription;
 
   constructor(
-    private httpClient: HttpClient
+    private characterService: CharacterService
   ) { }
 
   ngOnInit() {
-    this.httpClient.get(
-      'https://xivapi.com/character/' + this.Idlist[2] + '?key=' + this.apiXivKey
-    ).subscribe(
-      (data) => {
-        this.persoInfos = data['Character'];
-        this.armors = [];
-        // tslint:disable-next-line:forin
-        for (const obj in this.persoInfos['GearSet']['Gear']) {
-          if (obj !== 'SoulCrystal') {
-            this.httpClient.get(
-              'https://xivapi.com/item/' + data.Character.GearSet.Gear[obj].ID + '?key=' + this.apiXivKey
-            ).subscribe(
-              (dataItem) => {
-                this.armors.push([obj, dataItem.Name_fr, dataItem.LevelItem]);
-                this.ilvl += dataItem.LevelItem;
-              });
+    this.characterService.characters = [];
+    for (const id of this.idList) {
+      this.characterService.fetchCharacter(id);
+    }
+    this.characterSubscription = this.characterService.characterSubject.subscribe(
+      (characters: Character[]) => {
+        this.characters = characters;
+        this.characters.sort((c1, c2) => {
+          if (c1.name > c2.name) {
+            return 1;
           }
-        }
-      });
-    this.ilvl = this.ilvl / 12; // TODO : afficher la bonne valeur
+          if (c1.name < c2.name) {
+            return -1;
+          }
+        });
+      }
+    );
+    this.characterService.emitCharacterSubject();
+  }
+
+  sortBy(index: number, prop: string) {
+    return this.characters[index].gears.sort((a, b) => a[prop] > b[prop] ? 1 : a[prop] === b[prop] ? 0 : -1);
+  }
+
+  ngOnDestroy() {
+    this.characterSubscription.unsubscribe();
   }
 }
