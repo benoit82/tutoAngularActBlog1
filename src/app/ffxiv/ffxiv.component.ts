@@ -26,15 +26,12 @@ export class FfxivComponent implements OnInit, OnDestroy {
     }
     this.characterSubscription = this.characterService.characterSubject.subscribe(
       (characters: Character[]) => {
+        characters.sort(
+          (c1, c2) => {
+            return c1.name > c2.name ? 1 : (c1.name < c2.name ? -1 : 0);
+          }
+          );
         this.characters = characters;
-        this.characters.sort((c1, c2) => {
-          if (c1.name > c2.name) {
-            return 1;
-          }
-          if (c1.name < c2.name) {
-            return -1;
-          }
-        });
       }
     );
     this.characterService.emitCharacterSubject();
