@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 export class FfxivComponent implements OnInit, OnDestroy {
 
   characters: Character[] = [];
-  idList: any[] = [11271710, 13376194, 734000];
+  idList: any[] = [11271710, 13376194, 734000, 1218548];
 
   characterSubscription: Subscription;
 
@@ -20,6 +20,10 @@ export class FfxivComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+    this.initCharacters();
+  }
+
+  initCharacters() {
     this.characterService.characters = [];
     for (const id of this.idList) {
       this.characterService.fetchCharacter(id);
