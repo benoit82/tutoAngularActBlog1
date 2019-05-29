@@ -2,7 +2,8 @@
   <div class="container-fluid">
     <ul class="nav navbar-nav">
       <li routerLinkActive="active"><a routerLink="posts">Posts</a></li>
-      <li><a [routerLink]="[ '/posts', 'new' ]">Nouveau post</a></li>
+      <li routerLinkActive="active"><a [routerLink]="[ '/posts', 'new' ]">Nouveau post</a></li>
+      <li routerLinkActive="active"><a [routerLink]="[ '/ffxiv']">FFXIV</a></li>
     </ul>
   </div>
 </nav>

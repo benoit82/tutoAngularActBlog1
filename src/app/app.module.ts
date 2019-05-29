@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
@@ -9,13 +9,20 @@ import { PostListComponentComponent } from './post/post-list/post-list.component
 import { PostService } from 'src/services/post.service';
 import { HttpClientModule } from '@angular/common/http';
 import { NewPostComponent } from './post/new-post/new-post.component';
+import { FfxivComponent } from './ffxiv/ffxiv.component';
+import localeFr from '@angular/common/locales/fr';
+import { registerLocaleData } from '@angular/common';
+import { CharacterService } from 'src/services/character.service';
+
+registerLocaleData(localeFr);
 
 @NgModule({
   declarations: [
     AppComponent,
     PostComponent,
     PostListComponentComponent,
-    NewPostComponent
+    NewPostComponent,
+    FfxivComponent
   ],
   imports: [
     BrowserModule,
@@ -25,8 +32,11 @@ import { NewPostComponent } from './post/new-post/new-post.component';
     ReactiveFormsModule
   ],
   providers: [
-    PostService
+    PostService,
+    CharacterService,
+    { provide: LOCALE_ID, useValue: 'fr' }
   ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

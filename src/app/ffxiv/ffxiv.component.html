@@ -1,0 +1,22 @@
+<div class="row" >
+    <div class="col-sm-6 card border-primary" *ngFor="let chr of characters; let i = index">
+        <h2 class="text-center"> {{ chr.name }} </h2>
+        <p class="text-center"><img src="{{ chr.portraitLink }}" style="max-height: 400px;" alt="character picture"></p>
+        <table id="{{ chr.id }}" class="table table-striped table-inverse table-responsive">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>Armure</th>
+                    <th>Nom</th>
+                    <th>iLvl [{{ chr.getIlvl() }}]</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let gear of sortBy(i,'ilvl')">
+                    <td scope="row">{{ gear.piece }}</td>
+                    <td>{{ gear.name }}</td>
+                    <td>{{ gear.ilvl }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
